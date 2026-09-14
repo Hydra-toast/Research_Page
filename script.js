@@ -66,3 +66,14 @@ document.querySelector('#copy-button').addEventListener('click', async () => {
 });
 const topic = new URLSearchParams(location.search).get('topic');
 if (topic && topic.trim()) loadTopic(topic.slice(0,1600), inferExample(topic)); else renderPapers();
+
+// The hero preview demonstrates how the same paper supports different questions.
+document.querySelectorAll('[data-reading]').forEach(button=>button.addEventListener('click',()=>{
+ const method=button.dataset.reading==='method';
+ document.querySelectorAll('[data-reading]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+ document.getElementById('excerpt-method').classList.toggle('is-muted',!method);
+ document.getElementById('excerpt-limit').classList.toggle('is-muted',method);
+ document.getElementById('annotation-title').textContent=method?'이 부분부터 읽는 이유':'이 한계를 확인하는 이유';
+ document.getElementById('annotation-copy').textContent=method?'우리 랩의 원료·장비와 비교할 조건이 담겨 있어요.':'논문의 결과를 우리 랩에 그대로 적용할 수 있는지는 아직 알 수 없어요.';
+ document.getElementById('takeaway-copy').textContent=method?'논문의 제조 조건과 우리 랩에서 가능한 조건을 나란히 비교':'원료·장비가 달라질 때 추가로 확인해야 할 점 정리';
+}));
